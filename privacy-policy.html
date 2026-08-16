@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacidad de ReflexBurst</title>
+<style>
+  :root {
+    --bg: #F4F5F7;
+    --surface: #FFFFFF;
+    --surface-raised: #FFFFFF;
+    --text: #1B1D22;
+    --text-muted: #565B66;
+    --text-faint: #878C97;
+    --border: #DEE1E6;
+    --accent: #D9481F;
+    --accent-strong: #B93B18;
+    --accent-soft: #FCEAE3;
+    --shadow: 0 1px 2px rgba(20, 16, 15, 0.04), 0 8px 24px rgba(20, 16, 15, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14100F;
+      --surface: #1D1715;
+      --surface-raised: #241C19;
+      --text: #F1ECE7;
+      --text-muted: #B7AFA9;
+      --text-faint: #857D78;
+      --border: #332924;
+      --accent: #FF6A3D;
+      --accent-strong: #FF8259;
+      --accent-soft: #3A2018;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    background: var(--bg);
+  }
+
+  body {
+    color: var(--text);
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  }
+
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+    position: relative;
+  }
+
+  .glow {
+    position: absolute;
+    top: -80px;
+    right: -120px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.10;
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 56px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-weight: 700;
+    font-size: clamp(2.1rem, 5vw, 2.9rem);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+
+  .lede {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 58ch;
+    margin: 0 0 28px;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+  }
+
+  .chip strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .rule {
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--border) 28%, transparent 90%);
+    margin: 40px 0 0;
+  }
+
+  .summary-card {
+    position: relative;
+    z-index: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 8px;
+  }
+
+  .summary-card h2 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size: 1.05rem;
+    margin: 0 0 14px;
+  }
+
+  .summary-card ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+
+  .summary-card li {
+    display: flex;
+    gap: 12px;
+    font-size: 14.5px;
+    color: var(--text-muted);
+  }
+
+  .summary-card li::before {
+    content: "";
+    flex: none;
+    width: 6px;
+    height: 6px;
+    margin-top: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .summary-card li b {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    margin-top: 56px;
+  }
+
+  section {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  section:first-of-type {
+    border-top: none;
+    padding-top: 8px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .section-num {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    flex: none;
+  }
+
+  h2 {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 24px 0 10px;
+    color: var(--text);
+  }
+
+  p {
+    margin: 0 0 14px;
+    color: var(--text-muted);
+    max-width: 68ch;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  strong { color: var(--text); font-weight: 600; }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    text-underline-offset: 2px;
+  }
+
+  a:hover { color: var(--accent-strong); }
+
+  ul.list, ol.list {
+    margin: 0 0 14px;
+    padding-left: 20px;
+    color: var(--text-muted);
+    max-width: 66ch;
+  }
+
+  ul.list li, ol.list li {
+    margin-bottom: 8px;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0 8px;
+    font-size: 14px;
+  }
+
+  .data-table-wrap {
+    overflow-x: auto;
+  }
+
+  .data-table th, .data-table td {
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .data-table th {
+    background: var(--surface-raised);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+
+  .data-table td {
+    color: var(--text-muted);
+    background: var(--surface);
+  }
+
+  .data-table td strong { color: var(--text); }
+
+  .note {
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--text);
+    margin: 16px 0;
+  }
+
+  .note strong { color: var(--accent-strong); }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    margin-top: 24px;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 28px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .contact-card h2 {
+    font-size: 1.1rem;
+    margin: 0 0 6px;
+  }
+
+  .contact-card p {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .contact-email {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .foot-meta {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--text-faint);
+    text-align: center;
+  }
+
+  @media (max-width: 560px) {
+    .page { padding: 44px 18px 72px; }
+    .glow { width: 260px; height: 260px; right: -100px; }
+    .contact-card { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="glow"></div>
+
+  <header>
+    <span class="eyebrow mono">Política de Privacidad</span>
+    <h1>ReflexBurst</h1>
+    <p class="lede">
+      ReflexBurst es un juego de reflejos para Android. Este documento explica, en términos
+      claros, qué datos entran en juego cuando lo usas, quién los toca y qué control tienes
+      sobre ellos.
+    </p>
+    <div class="meta-row">
+      <span class="chip mono">Vigente desde <strong>16 ago 2026</strong></span>
+      <span class="chip mono">Paquete <strong>com.reflexburst.game</strong></span>
+    </div>
+  </header>
+
+  <div class="rule"></div>
+
+  <div class="summary-card" style="margin-top: 40px;">
+    <h2>En 30 segundos</h2>
+    <ul>
+      <li><b>No hay cuentas ni datos personales.</b> No pedimos nombre, correo, ni acceso a contactos, cámara o ubicación.</li>
+      <li><b>Tu progreso se queda en tu teléfono</b>, cifrado, y nunca se envía a ningún servidor nuestro — porque no operamos ninguno.</li>
+      <li><b>Los anuncios los sirve Google AdMob</b>, que puede usar un identificador de publicidad para mostrarlos y medirlos.</li>
+      <li><b>Las compras las procesa Google Play Billing</b>; nunca vemos ni almacenamos datos de tu tarjeta.</li>
+      <li><b>Puedes desactivar los anuncios personalizados</b> desde los ajustes de tu dispositivo en cualquier momento.</li>
+    </ul>
+  </div>
+
+  <main>
+    <section>
+      <div class="section-head">
+        <span class="section-num mono">01</span>
+        <h2>Quién trata tus datos</h2>
+      </div>
+      <p>
+        ReflexBurst es desarrollado y publicado de forma independiente. El responsable del
+        tratamiento de los datos descritos en esta política es el desarrollador de la app,
+        localizable en la información de contacto al final de este documento.
+      </p>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-num mono">02</span>
+        <h2>Qué datos recopilamos — y quién los recopila</h2>
+      </div>
+      <p>
+        ReflexBurst en sí mismo no tiene servidores propios ni sistema de cuentas: no
+        recopilamos directamente tu nombre, correo, teléfono, ubicación ni contenido de otras
+        apps. Los datos que sí entran en juego provienen de dos proveedores externos que la app
+        integra para funcionar: Google AdMob (anuncios) y Google Play Billing (compras).
+      </p>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Proveedor</th>
+              <th>Qué recopila</th>
+              <th>Para qué</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Google AdMob</strong></td>
+              <td>Identificador de publicidad, información técnica del dispositivo (modelo, idioma, red), dirección IP aproximada e interacción con los anuncios mostrados.</td>
+              <td>Mostrar y medir los anuncios recompensados de la app; personalizarlos salvo que los desactives.</td>
+            </tr>
+            <tr>
+              <td><strong>Google Play Billing</strong></td>
+              <td>Historial de compras dentro de la app (qué producto, cuándo). Los datos de pago (tarjeta, etc.) los gestiona Google directamente — la app nunca los recibe.</td>
+              <td>Procesar tus compras (monedas, revivir, vida extra, eliminar anuncios) y restaurarlas si reinstalas la app.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <strong>Nota:</strong> ambos servicios son operados por Google bajo su propia política de
+        privacidad. Puedes consultarla en
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-num mono">03</span>
+        <h2>Tu progreso de juego</h2>
+      </div>
+      <p>
+        Monedas, temas y objetos desbloqueados, estadísticas y retos diarios se guardan
+        <strong>únicamente en tu dispositivo</strong>, cifrados con AES-256 mediante las claves
+        del Android Keystore de tu propio teléfono. Nunca salen de él: no hay sincronización en
+        la nube ni copia en ningún servidor nuestro. Si desinstalas la app, ese progreso se
+        borra de forma permanente.
+      </p>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-num mono">04</span>
+        <h2>Con quién se comparten los datos</h2>
+      </div>
+      <p>
+        No vendemos datos a nadie. Los únicos terceros involucrados son los proveedores de
+        infraestructura que la app usa para funcionar:
+      </p>
+      <ul class="list">
+        <li><strong>Google AdMob</strong>, para servir los anuncios recompensados.</li>
+        <li><strong>Google Play Billing</strong>, para procesar las compras dentro de la app.</li>
+      </ul>
+      <p>
+        Ninguno de los dos recibe información que los identifique a ti personalmente (nombre,
+        correo) desde ReflexBurst — solo lo que se describe en la sección 02.
+      </p>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-num mono">05</span>
+        <h2>Tus opciones</h2>
+      </div>
+      <ul class="list">
+        <li>
+          <strong>Anuncios personalizados:</strong> desactívalos desde
+          <span class="mono">Ajustes → Google → Anuncios</span> en tu dispositivo Android, o
+          restablece tu identificador de publicidad desde ahí mismo.
+        </li>
+        <li>
+          <strong>Sin anuncios del todo:</strong> la compra "Eliminar Anuncios" quita los
+          anuncios recompensados de forma permanente.
+        </li>
+        <li>
+          <strong>Borrar tus datos:</strong> desinstalar la app elimina todo tu progreso
+          guardado localmente, de forma inmediata e irreversible.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-num mono">06</span>
+        <h2>Privacidad de menores</h2>
+      </div>
+      <p>
+        ReflexBurst no está dirigida específicamente a menores de 13 años y no recopilamos
+        conscientemente datos personales de menores. Si eres madre, padre o tutor y crees que un
+        menor a tu cargo nos ha proporcionado datos personales, contáctanos para eliminarlos.
+      </p>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-num mono">07</span>
+        <h2>Seguridad</h2>
+      </div>
+      <p>
+        Todo dato de progreso almacenado en el dispositivo está cifrado con AES-256-GCM usando
+        claves generadas y resguardadas por el Android Keystore del propio teléfono — nunca
+        salen de ahí en forma legible, ni siquiera hacia la propia app.
+      </p>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <span class="section-num mono">08</span>
+        <h2>Cambios a esta política</h2>
+      </div>
+      <p>
+        Si esta política cambia, actualizaremos la fecha de vigencia al inicio del documento y,
+        cuando el cambio sea significativo, lo indicaremos también dentro de la app.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="contact-card">
+      <div>
+        <h2>Contacto</h2>
+        <p>¿Preguntas sobre esta política o tus datos?</p>
+      </div>
+      <div>
+        <div class="contact-email mono">ra0636394@gmail.com</div>
+      </div>
+    </div>
+    <div class="foot-meta mono">ReflexBurst · com.reflexburst.game · Última actualización: 16 de agosto de 2026</div>
+  </footer>
+</div>
+
+</body>
+</html>
